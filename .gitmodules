@@ -1,0 +1,3 @@
+[submodule "ps4-rop-8cc"]
+	path = ps4-rop-8cc
+	url = https://github.com/sleirsgoevy/ps4-rop-8cc
