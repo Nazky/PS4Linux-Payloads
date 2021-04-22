@@ -21,7 +21,7 @@ void uart_write_byte(u8 b);
 static u64 vram_base = 0x100000000;
 // Current code assumes it's a power of two.
 static u64 vram_size = 1024 * 1024 * 1024;
-static int vram_gb = 4;
+static int vram_gb = 3;
 
 #define DM_PML4_BASE ((kern.dmap_base >> PML4SHIFT) & 0x1ff)
 
