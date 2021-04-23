@@ -33,6 +33,8 @@ After that just go to the root directory and run the **make** command
 
 YES
 
+(if you have a alert just ignore it)
+
 | PS4-kexec  | Link  |
 | ------------ | ------------ |
 | 6.72  | [Download](https://bit.ly/3enLFd6 "Download")  |
