@@ -158,7 +158,6 @@ int my_atoi(const char *s)
 
 int main()
 {
-    alert("Linux Loader by @NazkyYT");
 
     kexec(kernel_main, (void*)0);
 
