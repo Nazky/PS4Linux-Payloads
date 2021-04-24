@@ -135,6 +135,12 @@ int my_atoi(const char *s)
 
 int main()
 {
+<<<<<<< HEAD
+=======
+
+    kexec(kernel_main, (void*)0);
+
+>>>>>>> f057e076d68c3e41f5550fe9aa61174ffabdc63d
     struct sigaction sa = {
         .sa_handler = SIG_IGN,
         .sa_flags = 0,
