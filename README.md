@@ -14,7 +14,7 @@ You can find a better explanation [here](https://en.wikipedia.org/wiki/Kexec "he
 
 ## How i compile the payload ?
 
-You need some dependance, you can isntall them with these command.
+You need some dependance, you can install them with these command.
 
 ### Ubuntu/Debian
 ```bash
