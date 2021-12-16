@@ -46,4 +46,4 @@ YES
 you can leave a issue or contact me on twitter
 
 #### Credit
-[@sleirsgoevy](https://github.com/sleirsgoevy/ "@sleirsgoevy") for the payload, [@tihmstar](https://github.com/tihmstar "@tihmstar") for 7.02 offset, [@codedwrench](https://github.com/codedwrench "@codedwrench") for 7.55 offset
+[@sleirsgoevy](https://github.com/sleirsgoevy/ "@sleirsgoevy") for the payload, [@tihmstar](https://github.com/tihmstar "@tihmstar") for 7.02 offset, [@codedwrench](https://github.com/codedwrench "@codedwrench") for 7.55 & 9.00 offset

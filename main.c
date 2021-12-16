@@ -8,14 +8,14 @@
 #include <time.h>
 #include <ps4-offsets/kernel.h>
 
-#ifdef __7_55__
+#ifdef __9_00__
+asm("ps4kexec:\n.incbin \"ps4-kexec-900/kexec.bin\"\nps4kexec_end:\n");
+#elif __7_55__
 asm("ps4kexec:\n.incbin \"ps4-kexec-755/kexec.bin\"\nps4kexec_end:\n");
-#else
-#ifdef __7_02__
+#elif __7_02__
 asm("ps4kexec:\n.incbin \"ps4-kexec-702/kexec.bin\"\nps4kexec_end:\n");
 #else
 asm("ps4kexec:\n.incbin \"ps4-kexec-672/kexec.bin\"\nps4kexec_end:\n");
-#endif
 #endif
 
 extern char ps4kexec[];
@@ -135,6 +135,7 @@ int my_atoi(const char *s)
 
 int main()
 {
+    alert("Compiled by @NazkyYT");
     struct sigaction sa = {
         .sa_handler = SIG_IGN,
         .sa_flags = 0,
