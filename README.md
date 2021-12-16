@@ -1,6 +1,6 @@
 # PS4Linux-Payloads
 ### Linux payload for PS4
-#### 6.72 - 7.55
+#### 6.72 - 9.00
 
 ------------
 
@@ -29,17 +29,6 @@ sudo pacman -Sy yasm
 ```
 After that just go to the root directory and run the **make** command
 
-## Can i download just the kexec ?
-
-YES
-
-(if you have a alert just ignore it)
-
-| PS4-kexec  | Link  |
-| ------------ | ------------ |
-| 6.72  | [Download](https://bit.ly/3enLFd6 "Download")  |
-| 7.02  | [Download](https://bit.ly/3xisBFC "Download")  |
-| 7.55  | [Download](https://bit.ly/3aRszev "Download")  |
 
 ## I have a error when i try to compile the payload
 
