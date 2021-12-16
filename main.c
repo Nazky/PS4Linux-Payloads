@@ -135,7 +135,6 @@ int my_atoi(const char *s)
 
 int main()
 {
-    alert("Compiled by @NazkyYT");
     struct sigaction sa = {
         .sa_handler = SIG_IGN,
         .sa_flags = 0,
