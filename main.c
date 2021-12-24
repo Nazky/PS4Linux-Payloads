@@ -135,6 +135,7 @@ int my_atoi(const char *s)
 
 int main()
 {
+    alert("Oringal payload by @sleirsgoevy\nCompiled by @NazkyYT");
     struct sigaction sa = {
         .sa_handler = SIG_IGN,
         .sa_flags = 0,
