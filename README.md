@@ -49,6 +49,8 @@ USE THE RIGHT KERNEL FOR YOU'R PS4 !!
 | Slim (Belize) | [**4.19.93**](https://github.com/Nazky/ps4-linux/releases/download/4.19.93-belize/bzImage) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImage) |
 | PRO (Baikal) | [**4.19.93**](https://mega.nz/file/4FhBjbaS#zgy2TFTPN1fdWLyLZaJJBfIv2cZQOExdXvfYRVqIHNU) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageBaikal)  |
 
+(IF A KERNEL NOT WORK FOR YOU JUST TRY A NEW ONE EVEN IF IT'S NOT FOR YOU'R PS4!!!!)
+
 ___
 
 ### Install in a USB storage device :
