@@ -14,6 +14,8 @@ asm("ps4kexec:\n.incbin \"ps4-kexec-900/kexec.bin\"\nps4kexec_end:\n");
 asm("ps4kexec:\n.incbin \"ps4-kexec-755/kexec.bin\"\nps4kexec_end:\n");
 #elif __7_02__
 asm("ps4kexec:\n.incbin \"ps4-kexec-702/kexec.bin\"\nps4kexec_end:\n");
+#elif __5_05__
+asm("ps4kexec:\n.incbin \"ps4-kexec-505/kexec.bin\"\nps4kexec_end:\n");
 #else
 asm("ps4kexec:\n.incbin \"ps4-kexec-672/kexec.bin\"\nps4kexec_end:\n");
 #endif
@@ -135,7 +137,7 @@ int my_atoi(const char *s)
 
 int main()
 {
-    alert("Compiled by @NazkyYT");
+    alert("Oringal payload by @sleirsgoevy\nCompiled by @NazkyYT");
     struct sigaction sa = {
         .sa_handler = SIG_IGN,
         .sa_flags = 0,

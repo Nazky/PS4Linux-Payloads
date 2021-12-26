@@ -4,6 +4,8 @@
 #include "755.h"
 #elif __7_02__
 #include "702.h"
+#elif __5_05__
+#include "505.h"
 #else
 #include "672.h"
 #endif
