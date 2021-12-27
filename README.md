@@ -29,7 +29,7 @@ sudo pacman -Sy yasm
 ```
 After that just go to the root directory and run the **make** command.
 
-## How i can run/install linux ?
+## How can i run/install linux ?
 You can install and run linux by using a usb device or directly with the hdd (i am not going to show how install gentoo here !), disable the HDR and set the ps4 resolution to 1080p. 
 
 If you want to use my host (http://ps4xploit.zd.lu) here is how you can run the linux payload on 9.00 for now.
@@ -49,7 +49,7 @@ USE THE RIGHT KERNEL FOR YOU'R PS4 !!
 | Slim (Belize) | [**4.19.93**](https://github.com/Nazky/ps4-linux/releases/download/4.19.93-belize/bzImage) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImage) |
 | PRO (Baikal) | [**4.19.93**](https://mega.nz/file/4FhBjbaS#zgy2TFTPN1fdWLyLZaJJBfIv2cZQOExdXvfYRVqIHNU) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageBaikal)  |
 
-(IF A KERNEL NOT WORK FOR YOU JUST TRY A NEW ONE EVEN IF IT'S NOT FOR YOU'R PS4!!!!)
+(IF A KERNEL IS NOT WORKING FOR YOU, JUST TRY A NEW ONE EVEN IF IT'S NOT FOR YOUR PS4 TYPE !!!!!!)
 
 ___
 
