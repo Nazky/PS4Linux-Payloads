@@ -55,7 +55,7 @@ ___
 
 ### Install in a USB storage device :
 It's recommended to use a usb 3.0 here, put the psxitarch.tar.xz (you can use any other os like fedora or manjaro just rename it 'psxitarch.tar.xz'), the bzimage and the initramfs.cpio.gz in the root of the usb device.
-Download this [**initramfs.cpio.gz**](https://github.com/hippie68/psxitarch-how-to/releases/download/v1.00/initramfs.cpio.gz).
+Download this [**initramfs.cpio.gz**](https://github.com/hippie68/psxitarch-how-to/releases/download/v1.00/initramfs.cpio.gz) (Credit to [**@hippie68**](https://github.com/hippie68)).
 
 1) Format the USB storage device to FAT32.
 2) Go to the host you like (or use one of the aleardy compiled payload) and use the **"Linux 1GB"**.
@@ -73,6 +73,8 @@ Download this [**initramfs.cpio.gz**](https://mega.nz/file/g0J3USrD#qRQhmJXUaAD0
 4) Choose how many GB you want for the linux OS (minimum 30GB).
 5) After the installation is done use CTRL + D twice and wait.
 6) Congrat the OS is booting now (you can use any linux payload now the linux OS is going to boot automaticly)
+
+(YOU NEED A PS4 WITH A KERNEL THAT SUPPORT THE HDD FOR DOING THAT, IF YOU HAVE A ERROR ```Can't mount /dev/mapper/ps4hdd``` THAT'S MEAN YOU'R PS4 IS NOT COMPATIBLE)
 
 ### Unistall linux :
 For unistalling linux it's pretty simple you just have to format you'r USB storage device or delete the linux.img in /system/home
