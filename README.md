@@ -45,9 +45,9 @@ USE THE RIGHT KERNEL FOR YOU'R PS4 !!
 
 | PS4         | Kernel     |
 |--------------|-----------|
-| FAT (Aeolia) | [**4.19.93**](https://mega.nz/file/EJhBzTIQ#rpbOcpIpulojUxRUiZjLQ7RqS6tlNc6JmcCrgSxyG-g) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageAeolia)|
-| Slim (Belize) | [**4.19.93**](https://github.com/Nazky/ps4-linux/releases/download/4.19.93-belize/bzImage) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImage) |
-| PRO (Baikal) | [**4.19.93**](https://mega.nz/file/4FhBjbaS#zgy2TFTPN1fdWLyLZaJJBfIv2cZQOExdXvfYRVqIHNU) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageBaikal)  |
+| FAT (Aeolia) | [**4.14.93**](https://mega.nz/file/EJhBzTIQ#rpbOcpIpulojUxRUiZjLQ7RqS6tlNc6JmcCrgSxyG-g) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageAeolia)|
+| Slim (Belize) | [**4.14.93**](https://github.com/Nazky/ps4-linux/releases/download/4.19.93-belize/bzImage) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImage) |
+| PRO (Baikal) | [**4.14.93**](https://mega.nz/file/4FhBjbaS#zgy2TFTPN1fdWLyLZaJJBfIv2cZQOExdXvfYRVqIHNU) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageBaikal)  |
 
 (IF A KERNEL IS NOT WORKING FOR YOU, JUST TRY A NEW ONE EVEN IF IT'S NOT FOR YOUR PS4 TYPE !!!!!!)
 
