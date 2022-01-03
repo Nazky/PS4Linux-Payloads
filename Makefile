@@ -1,4 +1,4 @@
-all: LinuxLoader-505.bin LinuxLoader-505-2gb.bin LinuxLoader-505-3gb.bin LinuxLoader-505-4gb.bin LinuxLoader-505-5gb.bin LinuxLoader-672.bin LinuxLoader-672-2gb.bin LinuxLoader-672-3gb.bin LinuxLoader-702.bin LinuxLoader-702-2gb.bin LinuxLoader-702-3gb.bin LinuxLoader-755.bin LinuxLoader-755-2gb.bin LinuxLoader-755-3gb.bin LinuxLoader-672-4gb.bin LinuxLoader-702-4gb.bin LinuxLoader-755-4gb.bin LinuxLoader-672-5gb.bin LinuxLoader-702-5gb.bin LinuxLoader-755-5gb.bin LinuxLoader-900.bin LinuxLoader-900-2gb.bin LinuxLoader-900-3gb.bin LinuxLoader-900-4gb.bin LinuxLoader-900-5gb.bin cleanelf
+all: 505 672 702 755 900 cleanelf
 
 clean:
 	rm -rf 505 672 702 755 900
@@ -15,6 +15,22 @@ cleanelf:
 	cd 755; rm *.elf
 	cd 900; rm *.elf
 
+cleanelf505: 
+	cd 505; rm *.elf
+
+cleanelf672:
+	cd 672; rm *.elf
+
+cleanelf702:
+	cd 702; rm *.elf
+
+cleanelf755:
+	cd 755; rm *.elf
+
+cleanelf900:
+	cd 900; rm *.elf
+
+
 
 lib/lib.a:
 	clear
@@ -26,6 +42,16 @@ lib/lib.a:
 	@echo 
 	@echo Compiling Payloads
 	@echo 
+
+505: LinuxLoader-505.bin LinuxLoader-505-2gb.bin LinuxLoader-505-3gb.bin LinuxLoader-505-4gb.bin LinuxLoader-505-5gb.bin cleanelf505
+
+672: LinuxLoader-672.bin LinuxLoader-672-2gb.bin LinuxLoader-672-3gb.bin LinuxLoader-672-4gb.bin LinuxLoader-672-5gb.bin cleanelf672
+
+702: LinuxLoader-702.bin LinuxLoader-702-2gb.bin LinuxLoader-702-3gb.bin LinuxLoader-702-4gb.bin LinuxLoader-702-5gb.bin cleanelf702
+
+755: LinuxLoader-755.bin LinuxLoader-755-2gb.bin LinuxLoader-755-3gb.bin LinuxLoader-755-4gb.bin LinuxLoader-755-5gb.bin cleanelf755
+
+900: LinuxLoader-900.bin LinuxLoader-900-2gb.bin LinuxLoader-900-3gb.bin LinuxLoader-900-4gb.bin LinuxLoader-900-5gb.bin cleanelf900
 
 LinuxLoader-505.elf: lib/lib.a main.c ps4-kexec-505/kexec.bin
 	mkdir 505
