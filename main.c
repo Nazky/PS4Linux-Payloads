@@ -156,7 +156,7 @@ int main()
     unsigned long long vramstr_size = 0;
     int vramgb = 0;
 
-#define L(name, where, wheresz, is_fatal)\
+    #define L(name, where, wheresz, is_fatal)\
     if(read_file("/mnt/usb0/" name, where, wheresz)\
     && read_file("/mnt/usb1/" name, where, wheresz)\
     && read_file(HDD_BOOT_PATH name, where, wheresz))\
@@ -180,7 +180,7 @@ int main()
     }
     else
         alert("bootargs.txt is optional.");\
-        cmdline = "panic=0 clocksource=tsc radeon.dpm=0 console=tty0 console=ttyS0,115200n8 "
+        cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
                   "console=uart8250,mmio32,0xd0340000 video=HDMI-A-1:1920x1080-24@60 "
                   "consoleblank=0 net.ifnames=0 drm.debug=0";
 
