@@ -7,6 +7,7 @@
 #include <sys/thr.h>
 #include <time.h>
 #include <ps4-offsets/kernel.h>
+#include <stdio.h>
 
 #ifdef __9_00__
 asm("ps4kexec:\n.incbin \"ps4-kexec-900/kexec.bin\"\nps4kexec_end:\n");
@@ -20,8 +21,42 @@ asm("ps4kexec:\n.incbin \"ps4-kexec-505/kexec.bin\"\nps4kexec_end:\n");
 asm("ps4kexec:\n.incbin \"ps4-kexec-672/kexec.bin\"\nps4kexec_end:\n");
 #endif
 
+#ifndef VRAM_GB_DEFAULT
+#define VRAM_GB_DEFAULT 1
+#endif
+
+#ifndef VRAM_GB_MIN
+#define VRAM_GB_MIN 1
+#endif
+
+#ifndef VRAM_GB_MAX
+#define VRAM_GB_MAX 5
+#endif
+
+#ifndef HDD_BOOT_PATH
+#define HDD_BOOT_PATH "/user/system/boot/"
+#endif
+
+#ifndef initramfs
+#define initramfs "initramfs.cpio.gz"
+#endif
+
+#ifndef resolution
+#define resolution "video=HDMI-A-1:1920x1080-24@60"
+#endif
+
 extern char ps4kexec[];
 extern char ps4kexec_end[];
+
+char* kernel = NULL;
+unsigned long long kernel_size = 0;
+char* initrd = NULL;
+unsigned long long initrd_size = 0;
+char* cmdline = NULL;
+unsigned long long cmdline_size = 0;
+char* vramstr = NULL;
+unsigned long long vramstr_size = 0;
+int vramgb = 0;
 
 void kexec(void* f, void* u);
 
@@ -119,53 +154,17 @@ int my_atoi(const char *s)
     return (neg) ? (-ret) : (ret);
 }
 
-#ifndef VRAM_GB_DEFAULT
-#define VRAM_GB_DEFAULT 1
-#endif
-
-#ifndef VRAM_GB_MIN
-#define VRAM_GB_MIN 1
-#endif
-
-#ifndef VRAM_GB_MAX
-#define VRAM_GB_MAX 5
-#endif
-
-#ifndef HDD_BOOT_PATH
-#define HDD_BOOT_PATH "/user/system/boot/"
-#endif
-
-int main()
+void USBCHECK()
 {
-    alert("Original payload by @sleirsgoevy\nCompiled by @NazkyYT");
-    struct sigaction sa = {
-        .sa_handler = SIG_IGN,
-        .sa_flags = 0,
-    };
-    // note: overriding SIGSTOP and SIGKILL requires a kernel patch
-    sigaction(SIGSTOP, &sa, NULL);
-    sigaction(SIGTERM, &sa, NULL);
-    sigaction(SIGKILL, &sa, NULL);
-    char* kernel = NULL;
-    unsigned long long kernel_size = 0;
-    char* initrd = NULL;
-    unsigned long long initrd_size = 0;
-    char* cmdline = NULL;
-    unsigned long long cmdline_size = 0;
-    char* vramstr = NULL;
-    unsigned long long vramstr_size = 0;
-    int vramgb = 0;
-
     #define L(name, where, wheresz, is_fatal)\
     if(read_file("/mnt/usb0/" name, where, wheresz)\
-    && read_file("/mnt/usb1/" name, where, wheresz)\
-    && read_file(HDD_BOOT_PATH name, where, wheresz))\
+    && read_file("/mnt/usb1/" name, where, wheresz))\
     {\
         alert("Failed to load file: " name ".\nPaths checked:\n/mnt/usb0/" name "\n/mnt/usb1/" name "\n" HDD_BOOT_PATH name);\
-        if (is_fatal) return 1;\
+        if (is_fatal) HDDCHECK();\
     }
     L("bzImage", &kernel, &kernel_size, 1);
-    L("initramfs.cpio.gz", &initrd, &initrd_size, 1);
+    L(initramfs, &initrd, &initrd_size, 1);
 
     L("bootargs.txt", &cmdline, &cmdline_size, 0);
 
@@ -181,7 +180,7 @@ int main()
     else
         alert("bootargs.txt is optional.");\
         cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
-                  "console=uart8250,mmio32,0xd0340000 video=HDMI-A-1:1920x1080-24@60 "
+                  "console=uart8250,mmio32,0xd0340000 " resolution " "
                   "consoleblank=0 net.ifnames=0 drm.debug=0";
 
     L("vram.txt", &vramstr, &vramstr_size, 0);
@@ -194,8 +193,65 @@ int main()
     else
         alert("vram.txt is optional.");\
         vramgb = VRAM_GB_DEFAULT;
+}
+
+void HDDCHECK()
+{
+    #define L(name, where, wheresz, is_fatal)\
+    if(read_file(HDD_BOOT_PATH name, where, wheresz))\
+    {\
+        alert("Failed to load file: " name ".\nPaths checked:\n" HDD_BOOT_PATH name);\
+        if (is_fatal) return 1;\
+    }
+    L("bzImage", &kernel, &kernel_size, 1);
+    L(initramfs, &initrd, &initrd_size, 1);
+
+    L("bootargs.txt", &cmdline, &cmdline_size, 0);
+
+    if(cmdline && cmdline_size)
+    {
+        for(int i = 0; i < cmdline_size; i++)
+            if(cmdline[i] == '\n')
+            {
+                cmdline[i] = '\0';
+                break;
+            }
+    }
+    else
+        alert("bootargs.txt is optional.");\
+        cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
+                  "console=uart8250,mmio32,0xd0340000 " resolution " "
+                  "consoleblank=0 net.ifnames=0 drm.debug=0";
+
+    L("vram.txt", &vramstr, &vramstr_size, 0);
+    if(vramstr && vramstr_size)
+    {
+        vramgb = my_atoi(vramstr);
+        if(vramgb < VRAM_GB_MIN || vramgb > VRAM_GB_MAX)
+            vramgb = VRAM_GB_DEFAULT;
+    }
+    else
+        alert("vram.txt is optional.");\
+        vramgb = VRAM_GB_DEFAULT;
+}
+
+int main()
+{
+    alert("Original payload by @sleirsgoevy\nCompiled by @NazkyYT");
+
+    struct sigaction sa = {
+        .sa_handler = SIG_IGN,
+        .sa_flags = 0,
+    };
+    // note: overriding SIGSTOP and SIGKILL requires a kernel patch
+    sigaction(SIGSTOP, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGKILL, &sa, NULL);
+
+    USBCHECK();
 
     kexec(kernel_main, (void*)0);
+
     long x, y;
     struct thr_param thr = {
         .start_func = reboot_thread,
@@ -209,6 +265,7 @@ int main()
         .flags = 0,
         .rtp = NULL
     };
+
     thr_new(&thr, sizeof(thr));
     kexec_load(kernel, kernel_size, initrd, initrd_size, cmdline, vramgb);
     for(;;);
