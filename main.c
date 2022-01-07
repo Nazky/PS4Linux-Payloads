@@ -178,10 +178,12 @@ void USBCHECK()
             }
     }
     else
-        alert("bootargs.txt is optional.");\
+    {
+        alert("bootargs.txt is optional.");
         cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
                   "console=uart8250,mmio32,0xd0340000 " resolution " "
                   "consoleblank=0 net.ifnames=0 drm.debug=0";
+    }
 
     L("vram.txt", &vramstr, &vramstr_size, 0);
     if(vramstr && vramstr_size)
@@ -191,8 +193,10 @@ void USBCHECK()
             vramgb = VRAM_GB_DEFAULT;
     }
     else
-        alert("vram.txt is optional.");\
+    {
+        alert("vram.txt is optional.");
         vramgb = VRAM_GB_DEFAULT;
+    }
 }
 
 void HDDCHECK()
@@ -218,10 +222,12 @@ void HDDCHECK()
             }
     }
     else
-        alert("bootargs.txt is optional.");\
+    {
+        alert("bootargs.txt is optional.");
         cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
                   "console=uart8250,mmio32,0xd0340000 " resolution " "
                   "consoleblank=0 net.ifnames=0 drm.debug=0";
+    }
 
     L("vram.txt", &vramstr, &vramstr_size, 0);
     if(vramstr && vramstr_size)
@@ -231,8 +237,10 @@ void HDDCHECK()
             vramgb = VRAM_GB_DEFAULT;
     }
     else
-        alert("vram.txt is optional.");\
+    {
+        alert("vram.txt is optional.");
         vramgb = VRAM_GB_DEFAULT;
+    }
 }
 
 int main()
