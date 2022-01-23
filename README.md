@@ -45,11 +45,9 @@ USE THE RIGHT KERNEL FOR YOU'R PS4 !!
 
 | PS4         | Kernel     |
 |--------------|-----------|
-| FAT (Aeolia) | [**4.14.93**](https://mega.nz/file/EJhBzTIQ#rpbOcpIpulojUxRUiZjLQ7RqS6tlNc6JmcCrgSxyG-g) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageAeolia)|
-| Slim (Belize) | [**4.14.93**](https://github.com/Nazky/ps4-linux/releases/download/4.19.93-belize/bzImage) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImage) |
-| PRO (Baikal) | [**4.14.93**](https://mega.nz/file/4FhBjbaS#zgy2TFTPN1fdWLyLZaJJBfIv2cZQOExdXvfYRVqIHNU) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageBaikal)  |
-
-(IF A KERNEL IS NOT WORKING FOR YOU, JUST TRY A NEW ONE EVEN IF IT'S NOT FOR YOUR PS4 TYPE !!!!!!)
+| Aeolia | [**4.14.93**](https://mega.nz/file/EJhBzTIQ#rpbOcpIpulojUxRUiZjLQ7RqS6tlNc6JmcCrgSxyG-g) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageAeolia)|
+| Beliz | [**4.14.93**](https://github.com/Nazky/ps4-linux/releases/download/4.19.93-belize/bzImage) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImage) |
+| Baikal | [**4.14.93**](https://mega.nz/file/4FhBjbaS#zgy2TFTPN1fdWLyLZaJJBfIv2cZQOExdXvfYRVqIHNU) [**5.3.18** (BETA)](https://github.com/ps4boot/ps4-linux/releases/download/v1/bzImageBaikal)  |
 
 ___
 
@@ -64,13 +62,13 @@ Download this [**initramfs.cpio.gz**](https://github.com/hippie68/psxitarch-how-
 6) After the installation is done use the command ```resume-boot``` (You can now use the linux 3 or 4 GB and use ```resume-boot``` to boot to the OS).
 
 ### Install in the internal HDD :
-Put the psxitarch.tar.xz (you can use any other os like fedora or manjaro just rename it 'psxitarch.tar.xz'), the bzimage and the initramfs.cpio.gz in /user/system/boot.
+Put the arch.tar.xz (you can use any other os like fedora or manjaro just rename it 'arch.tar.xz'), the bzimage and the initramfs.cpio.gz in /user/system/boot.
 Download this [**initramfs.cpio.gz**](https://mega.nz/file/g0J3USrD#qRQhmJXUaAD0lz4N6HlER6OlLjVlXDWF99WRI1auV94).
 
 1) Format a usb device to FAT32 and put this [**file**](https://mega.nz/file/phZ13ShL#YZKkKhFrmkrVmRpIrjc8EnrvDr5iuEEn4xXXtRh4Jo0) in the root
 2) Go to the host you like disconnect all usb device insert the one with the file in it and use the linux you want.
 3) When the CLI is booting run these commands ```mkdir usb``` then ```mount /dev/sdb1 /usb``` then ```./usb/Install-HDD.sh```.
-4) Choose how many GB you want for the linux OS (minimum 30GB).
+4) Choose how many GB you want for the linux OS (minimum 50GB).
 5) After the installation is done use CTRL + D twice and wait.
 6) Congrat the OS is booting now (you can use any linux payload now the linux OS is going to boot automaticly)
 
