@@ -8,6 +8,7 @@
 #include <time.h>
 #include <ps4-offsets/kernel.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef __9_00__
 asm("ps4kexec:\n.incbin \"ps4-kexec-900/kexec.bin\"\nps4kexec_end:\n");
@@ -41,22 +42,14 @@ asm("ps4kexec:\n.incbin \"ps4-kexec-672/kexec.bin\"\nps4kexec_end:\n");
 #define initramfs "initramfs.cpio.gz"
 #endif
 
-#ifndef resolution
-#define resolution "video=HDMI-A-1:1920x1080-24@60"
+#ifndef RESOLUTION
+#define RESOLUTION 1080
 #endif
 
 extern char ps4kexec[];
 extern char ps4kexec_end[];
 
-char* kernel = NULL;
-unsigned long long kernel_size = 0;
-char* initrd = NULL;
-unsigned long long initrd_size = 0;
-char* cmdline = NULL;
-unsigned long long cmdline_size = 0;
-char* vramstr = NULL;
-unsigned long long vramstr_size = 0;
-int vramgb = 0;
+int reso = RESOLUTION;
 
 void kexec(void* f, void* u);
 
@@ -154,90 +147,10 @@ int my_atoi(const char *s)
     return (neg) ? (-ret) : (ret);
 }
 
-void USBCHECK()
-{
-    #define L(name, where, wheresz, is_fatal)\
-    if(read_file("/mnt/usb0/" name, where, wheresz)\
-    && read_file("/mnt/usb1/" name, where, wheresz))\
-    {\
-        alert("Failed to load file: " name ".\nPaths checked:\n/mnt/usb0/" name "\n/mnt/usb1/" name "\n" HDD_BOOT_PATH name);\
-        if (is_fatal) HDDCHECK();\
-    }
-    L("bzImage", &kernel, &kernel_size, 1);
-    L(initramfs, &initrd, &initrd_size, 1);
-
-    L("bootargs.txt", &cmdline, &cmdline_size, 0);
-
-    if(cmdline && cmdline_size)
-    {
-        for(int i = 0; i < cmdline_size; i++)
-            if(cmdline[i] == '\n')
-            {
-                cmdline[i] = '\0';
-                break;
-            }
-    }
-    else
-        alert("bootargs.txt is optional.");\
-        cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
-                  "console=uart8250,mmio32,0xd0340000 " resolution " "
-                  "consoleblank=0 net.ifnames=0 drm.debug=0";
-
-    L("vram.txt", &vramstr, &vramstr_size, 0);
-    if(vramstr && vramstr_size)
-    {
-        vramgb = my_atoi(vramstr);
-        if(vramgb < VRAM_GB_MIN || vramgb > VRAM_GB_MAX)
-            vramgb = VRAM_GB_DEFAULT;
-    }
-    else
-        alert("vram.txt is optional.");\
-        vramgb = VRAM_GB_DEFAULT;
-}
-
-void HDDCHECK()
-{
-    #define L(name, where, wheresz, is_fatal)\
-    if(read_file(HDD_BOOT_PATH name, where, wheresz))\
-    {\
-        alert("Failed to load file: " name ".\nPaths checked:\n" HDD_BOOT_PATH name);\
-        if (is_fatal) return 1;\
-    }
-    L("bzImage", &kernel, &kernel_size, 1);
-    L(initramfs, &initrd, &initrd_size, 1);
-
-    L("bootargs.txt", &cmdline, &cmdline_size, 0);
-
-    if(cmdline && cmdline_size)
-    {
-        for(int i = 0; i < cmdline_size; i++)
-            if(cmdline[i] == '\n')
-            {
-                cmdline[i] = '\0';
-                break;
-            }
-    }
-    else
-        alert("bootargs.txt is optional.");\
-        cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
-                  "console=uart8250,mmio32,0xd0340000 " resolution " "
-                  "consoleblank=0 net.ifnames=0 drm.debug=0";
-
-    L("vram.txt", &vramstr, &vramstr_size, 0);
-    if(vramstr && vramstr_size)
-    {
-        vramgb = my_atoi(vramstr);
-        if(vramgb < VRAM_GB_MIN || vramgb > VRAM_GB_MAX)
-            vramgb = VRAM_GB_DEFAULT;
-    }
-    else
-        alert("vram.txt is optional.");\
-        vramgb = VRAM_GB_DEFAULT;
-}
-
 int main()
 {
     alert("Original payload by @sleirsgoevy\nCompiled by @NazkyYT");
+    alert("If you use Night-King host, don't use it anymore thanks");
 
     struct sigaction sa = {
         .sa_handler = SIG_IGN,
@@ -248,10 +161,67 @@ int main()
     sigaction(SIGTERM, &sa, NULL);
     sigaction(SIGKILL, &sa, NULL);
 
-    USBCHECK();
+    char* kernel = NULL;
+    unsigned long long kernel_size = 0;
+    char* initrd = NULL;
+    unsigned long long initrd_size = 0;
+    char* cmdline = NULL;
+    unsigned long long cmdline_size = 0;
+    char* vramstr = NULL;
+    unsigned long long vramstr_size = 0;
+    int vramgb = 0;
+
+    #define L(name, where, wheresz, is_fatal)\
+    if(read_file("/mnt/usb0/" name, where, wheresz)\
+    && read_file("/mnt/usb1/" name, where, wheresz)\
+    && read_file(HDD_BOOT_PATH name, where, wheresz))\
+    {\
+        alert("Failed to load file: " name ".\nPaths checked:\n/mnt/usb0/" name "\n/mnt/usb1/" name "\n" HDD_BOOT_PATH name);\
+        if (is_fatal) return 1;\
+    }
+    L("bzImage", &kernel, &kernel_size, 1);
+    L("initramfs.cpio.gz", &initrd, &initrd_size, 1);
+
+    L("bootargs.txt", &cmdline, &cmdline_size, 0);
+
+    if(cmdline && cmdline_size)
+    {
+        for(int i = 0; i < cmdline_size; i++)
+            if(cmdline[i] == '\n')
+            {
+                cmdline[i] = '\0';
+                break;
+            }
+    }
+    else
+        alert("bootargs.txt is optional.");\
+
+        if(reso == 1080){
+            cmdline = "panic=0 clocksource=tsc radeon.dpm=0 console=tty0 console=ttyS0,115200n8 "
+                  "console=uart8250,mmio32,0xd0340000 video=HDMI-A-1:1920x1080-24@60 "
+                  "consoleblank=0 net.ifnames=0 drm.debug=0";
+        }else if(reso == 720){
+            cmdline = "panic=0 clocksource=tsc radeon.dpm=0 console=tty0 console=ttyS0,115200n8 "
+                    "console=uart8250,mmio32,0xd0340000 video=HDMI-A-1:1280x720@60 "
+                    "consoleblank=0 net.ifnames=0 drm.debug=0";
+        }else if(reso == 480){
+            cmdline = "panic=0 clocksource=tsc radeon.dpm=0 console=tty0 console=ttyS0,115200n8 "
+                    "console=uart8250,mmio32,0xd0340000 video=HDMI-A-1:640x480@60 "
+                    "consoleblank=0 net.ifnames=0 drm.debug=0";
+        }
+
+    L("vram.txt", &vramstr, &vramstr_size, 0);
+    if(vramstr && vramstr_size)
+    {
+        vramgb = my_atoi(vramstr);
+        if(vramgb < VRAM_GB_MIN || vramgb > VRAM_GB_MAX)
+            vramgb = VRAM_GB_DEFAULT;
+    }
+    else
+        alert("vram.txt is optional.");\
+        vramgb = VRAM_GB_DEFAULT;
 
     kexec(kernel_main, (void*)0);
-
     long x, y;
     struct thr_param thr = {
         .start_func = reboot_thread,
@@ -265,7 +235,6 @@ int main()
         .flags = 0,
         .rtp = NULL
     };
-
     thr_new(&thr, sizeof(thr));
     kexec_load(kernel, kernel_size, initrd, initrd_size, cmdline, vramgb);
     for(;;);
