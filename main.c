@@ -22,22 +22,6 @@ asm("ps4kexec:\n.incbin \"ps4-kexec-505/kexec.bin\"\nps4kexec_end:\n");
 #error "unsupported firmware"
 #endif
 
-#ifndef VRAM_GB_DEFAULT
-#define VRAM_GB_DEFAULT 1
-#endif
-
-#ifndef VRAM_GB_MIN
-#define VRAM_GB_MIN 1
-#endif
-
-#ifndef VRAM_GB_MAX
-#define VRAM_GB_MAX 5
-#endif
-
-#ifndef HDD_BOOT_PATH
-#define HDD_BOOT_PATH "/user/system/boot/"
-#endif
-
 extern char ps4kexec[];
 extern char ps4kexec_end[];
 
@@ -137,22 +121,32 @@ int my_atoi(const char *s)
     return (neg) ? (-ret) : (ret);
 }
 
+#ifndef VRAM_GB_DEFAULT
+#define VRAM_GB_DEFAULT 1
+#endif
+
+#ifndef VRAM_GB_MIN
+#define VRAM_GB_MIN 1
+#endif
+
+#ifndef VRAM_GB_MAX
+#define VRAM_GB_MAX 5
+#endif
+
+#ifndef HDD_BOOT_PATH
+#define HDD_BOOT_PATH "/user/system/boot/"
+#endif
+
 int main()
 {
-    alert("Original payload by @sleirsgoevy\nCompiled by @NazkyYT");
-    alert("If you use Night-King host, don't use it anymore thanks");
-
     struct sigaction sa = {
         .sa_handler = SIG_IGN,
         .sa_flags = 0,
     };
-
     // note: overriding SIGSTOP and SIGKILL requires a kernel patch
-
     sigaction(SIGSTOP, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
     sigaction(SIGKILL, &sa, NULL);
-
     char* kernel = NULL;
     unsigned long long kernel_size = 0;
     char* initrd = NULL;
@@ -163,8 +157,7 @@ int main()
     unsigned long long vramstr_size = 0;
     int vramgb = 0;
 
-
-    #define L(name, where, wheresz, is_fatal)\
+#define L(name, where, wheresz, is_fatal)\
     if(read_file("/mnt/usb0/" name, where, wheresz)\
     && read_file("/mnt/usb1/" name, where, wheresz)\
     && read_file(HDD_BOOT_PATH name, where, wheresz))\
@@ -172,36 +165,34 @@ int main()
         alert("Failed to load file: " name ".\nPaths checked:\n/mnt/usb0/" name "\n/mnt/usb1/" name "\n" HDD_BOOT_PATH name);\
         if (is_fatal) return 1;\
     }
-
     L("bzImage", &kernel, &kernel_size, 1);
     L("initramfs.cpio.gz", &initrd, &initrd_size, 1);
-    L("vram.txt", &vramstr, &vramstr_size, 0);
+
     L("bootargs.txt", &cmdline, &cmdline_size, 0);
 
-    if(cmdline && cmdline_size){
+    if(cmdline && cmdline_size)
+    {
         for(int i = 0; i < cmdline_size; i++)
             if(cmdline[i] == '\n')
             {
                 cmdline[i] = '\0';
                 break;
             }
-    }else{
-        alert("bootargs.txt is optional.");
-
-        cmdline = "panic=0 clocksource=tsc amdgpu.dpm=0 console=tty0 console=ttyS0,115200n8 "
+    }
+    else
+        cmdline = "panic=0 clocksource=tsc radeon.dpm=0 console=tty0 console=ttyS0,115200n8 "
                   "console=uart8250,mmio32,0xd0340000 video=HDMI-A-1:1280x720@60 "
                   "consoleblank=0 net.ifnames=0 drm.debug=0";
-    }
 
-    if(vramstr && vramstr_size){
+    L("vram.txt", &vramstr, &vramstr_size, 0);
+    if(vramstr && vramstr_size)
+    {
         vramgb = my_atoi(vramstr);
         if(vramgb < VRAM_GB_MIN || vramgb > VRAM_GB_MAX)
             vramgb = VRAM_GB_DEFAULT;
-    }else{
-        alert("vram.txt is optional.");
-        vramgb = VRAM_GB_DEFAULT;
     }
-        
+    else
+        vramgb = VRAM_GB_DEFAULT;
 
     kexec(kernel_main, (void*)0);
     long x, y;
