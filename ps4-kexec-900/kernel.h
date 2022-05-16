@@ -91,6 +91,10 @@ struct ksym_t {
     void *edid;
     void (*wlanbt)(unsigned int state);
     int (*kern_reboot)(int magic);
+    void(*set_gpu_freq)(unsigned int num, unsigned int freq);
+    void(*set_pstate)(unsigned int val);
+    void(*update_vddnp)(unsigned int val);
+    void(*set_cu_power_gate)(unsigned int val);
 };
 
 extern struct ksym_t kern;

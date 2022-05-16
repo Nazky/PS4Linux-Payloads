@@ -77,6 +77,23 @@ int sys_kexec(void *td, struct sys_kexec_args *uap)
         goto cleanup;
     }
     
+    // Set gpu frequencies and pstate
+    // Default : 800
+    kern.set_pstate(3);
+    kern.set_gpu_freq(0, 900);
+    kern.set_gpu_freq(1, 900);
+    kern.set_gpu_freq(2, 900);
+    kern.set_gpu_freq(3, 900);
+    kern.set_gpu_freq(4, 900);
+    kern.set_gpu_freq(5, 900);
+    kern.set_gpu_freq(6, 900);
+    kern.set_gpu_freq(7, 900);
+
+    kern.update_vddnp(0x12);
+    kern.set_cu_power_gate(0x12);
+
+
+    
     // Copy in kernel image
     image = kernel_alloc_contig(uap->image_size);
     if (!image) {

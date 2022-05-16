@@ -136,6 +136,10 @@ static int resolve_symbols(void)
     RESOLVE_NOERR(edid);
     RESOLVE(wlanbt);
     RESOLVE(kern_reboot);
+	RESOLVE(set_gpu_freq);
+    RESOLVE(set_pstate);
+    RESOLVE(update_vddnp);
+    RESOLVE(set_cu_power_gate);
     return 1;
 }
 

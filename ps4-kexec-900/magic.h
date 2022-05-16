@@ -295,4 +295,8 @@
 #define kern_off_edid 0x274C058
 #define kern_off_wlanbt	0x180860
 #define kern_off_kern_reboot 0x29A380 // mira
+#define kern_off_set_gpu_freq 0x4DDDC0
+#define kern_off_set_pstate 0x4D6FC0
+#define kern_off_update_vddnp 0x4DE360
+#define kern_off_set_cu_power_gate 0x4DE770
 #endif
